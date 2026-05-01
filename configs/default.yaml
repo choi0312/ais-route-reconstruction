@@ -1,0 +1,63 @@
+project:
+  name: ais_route_reconstruction
+  seed: 42
+  output_dir: outputs
+
+data:
+  train_path: data/raw/train.csv
+  test_path: data/raw/test.csv
+  sample_submission_path: data/raw/sample_submission.csv
+  id_col_candidates:
+    - row_id
+    - ID
+    - id
+  voyage_col_candidates:
+    - voyage_id
+    - VOYAGE_ID
+    - Voyage
+  time_col_candidates:
+    - UPDT_TM
+    - update_time
+    - timestamp
+  target_col: IS_TARGET
+  lat_col: LAT_REL
+  lon_col: LON_REL
+
+features:
+  seq_len: 20
+  dt_clip_seconds: 28800
+  sog_to_ms: 0.514444
+  small_volume_log_threshold: 5.694
+  large_volume_log_threshold: 8.365
+
+kalman:
+  process_noise_base: 0.35
+  measurement_position_noise: 12.0
+  measurement_velocity_noise: 2.0
+  speed_noise_scale: 0.08
+
+reconstruction:
+  use_kalman: true
+  use_anchor_scaling: true
+  use_gaussian_center_weight: true
+  static_speed_threshold: 0.15
+  short_gap_threshold: 2
+  alpha_base: 0.55
+  alpha_gap_gain: 0.20
+  alpha_curve_gain: 0.20
+  delta_clip_factor: 1.8
+
+model:
+  enabled: false
+  hidden_dim: 128
+  seq_len: 20
+  graph_radius: 3
+  tcn_weight: 0.6
+  graph_weight: 0.4
+
+validation:
+  group_col: voyage_id
+  n_splits: 5
+
+submission:
+  filename: submission.csv

@@ -1,0 +1,12 @@
+[project]
+name = "ais-route-reconstruction"
+version = "0.1.0"
+description = "Hybrid AIS route reconstruction pipeline using Kalman smoothing, temporal delta modeling, graph refinement, and anchor-based block reconstruction."
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 100
